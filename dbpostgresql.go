@@ -2,6 +2,7 @@ package dbpostgresql
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -146,5 +147,62 @@ func DeleteUser(id int) error {
 
 }
 
+func ListUsers() ([]Userdata, error) {
+	Data := []Userdata{}
 
+	db, err := openConnection()
+	if err != nil {
+		return Data, err
+	}
 
+	db.Close()
+
+	statement := `SELECT "id", "username", "name","description" FROM "users", "userdata" WHERE users.id = userdata.userid `
+	rows, err := db.Query(statement)
+	if err != nil {
+		return Data, err
+	}
+
+	for rows.Next() {
+		var id int
+		var username string
+		var name string
+		var surname string
+		var description string
+
+		err = rows.Scan(&id, &username, &name, &surname, &description)
+		temp := Userdata{ID: id, Name: name, Username: username, Surname: surname, Description: description}
+		Data = append(Data, temp)
+		if err != nil {
+			return Data, err
+		}
+	}
+
+	defer rows.Close()
+	return Data, nil
+
+}
+
+func UpdateUser(d Userdata) error {
+	db, err := openConnection()
+	if err != nil {
+		return err
+	}
+
+	defer db.Close()
+
+	userID := exists(d.Username)
+	if userID == -1 {
+		return errors.New("user does not exist")
+	}
+
+	d.ID = userID
+	updateStatement := `update "userdata" set "name"=$1, "surname"=$2, "description" where "userid"=$4`
+
+	_, err = db.Exec(updateStatement, &d.Name, &d.Surname, &d.Description, &d.ID)
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
