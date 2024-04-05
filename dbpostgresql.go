@@ -15,6 +15,7 @@ var (
 	Username = ""
 	Password = ""
 	Database = ""
+	Sslmode  = ""
 )
 
 type Userdata struct {
@@ -26,7 +27,7 @@ type Userdata struct {
 }
 
 func openConnection() (*sql.DB, error) {
-	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s", Hostname, Port, Username, Password, Database)
+	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s", Hostname, Port, Username, Password, Database, Sslmode)
 
 	db, err := sql.Open("postgres", conn)
 	if err != nil {
