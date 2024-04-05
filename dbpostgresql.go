@@ -36,7 +36,6 @@ func openConnection() (*sql.DB, error) {
 
 	err = db.Ping()
 	if err != nil {
-		fmt.Println("ERROR")
 		return nil, err
 	}
 	fmt.Println("DB connect")
@@ -55,7 +54,7 @@ func exists(username string) int {
 	defer db.Close()
 
 	userID := -1
-	statement := fmt.Sprintf(`SELECT "id" FROM "users" where username = '%s'`, username)
+	statement := fmt.Sprintf(`SELECT "id" FROM "users" where username='%s'`, username)
 
 	rows, err := db.Query(statement)
 	if err != nil {
@@ -121,7 +120,7 @@ func DeleteUser(id int) error {
 
 	defer db.Close()
 
-	statement := fmt.Sprintf(`SELECT "username" FROM "users" where id = %d`, id)
+	statement := fmt.Sprintf(`SELECT "username" FROM "users" where id=%d`, id)
 
 	rows, err := db.Query(statement)
 	if err != nil {
