@@ -31,7 +31,12 @@ func openConnection() (*sql.DB, error) {
 
 	db, err := sql.Open("postgres", conn)
 	if err != nil {
-		fmt.Println(err, "ERR")
+		return nil, err
+	}
+
+	err = db.Ping()
+	if err != nil {
+		fmt.Println("ERROR")
 		return nil, err
 	}
 	return db, nil
