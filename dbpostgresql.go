@@ -111,7 +111,6 @@ func AddUser(d Userdata) int {
 		return -1
 	}
 	return userId
-
 }
 
 func DeleteUser(id int) error {
@@ -148,7 +147,7 @@ func DeleteUser(id int) error {
 	if err != nil {
 		return err
 	}
-	deleteStatement = `delete from "users" where id = $1`
+	deleteStatement = `delete from "users" where id=$1`
 	_, err = db.Exec(deleteStatement, id)
 	if err != nil {
 		return err
