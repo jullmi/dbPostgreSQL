@@ -206,7 +206,7 @@ func UpdateUser(d Userdata) error {
 	}
 
 	d.ID = userID
-	updateStatement := `update "userdata" set "name"=$1, "surname"=$2, "description" where "userid"=$4`
+	updateStatement := `update "userdata" set "name"=$1, "surname"=$2, "description"=$3 where userid=$4`
 
 	_, err = db.Exec(updateStatement, &d.Name, &d.Surname, &d.Description, &d.ID)
 	if err != nil {
