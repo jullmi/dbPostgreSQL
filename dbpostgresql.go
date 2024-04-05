@@ -38,7 +38,6 @@ func openConnection() (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("DB connect")
 	return db, nil
 }
 
@@ -171,7 +170,6 @@ func ListUsers() ([]Userdata, error) {
 	if err != nil {
 		return Data, err
 	}
-
 
 
 	for rows.Next() {
