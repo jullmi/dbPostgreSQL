@@ -156,7 +156,7 @@ func ListUsers() ([]Userdata, error) {
 		return Data, err
 	}
 
-	db.Close()
+	defer db.Close()
 
 	statement := `SELECT "id", "username", "name","description" FROM "users", "userdata" WHERE users.id = userdata.userid `
 	rows, err := db.Query(statement)
