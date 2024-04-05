@@ -39,6 +39,9 @@ func openConnection() (*sql.DB, error) {
 		fmt.Println("ERROR")
 		return nil, err
 	}
+	if err == nil {
+		fmt.Println("OK")
+	}
 	return db, nil
 }
 
